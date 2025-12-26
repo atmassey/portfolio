@@ -1,6 +1,306 @@
 ﻿@page "/contact"
-<h3>Contact</h3>
+@inject IJSRuntime JSRuntime
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Contact - Austin Massey</PageTitle>
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
+
+            <div class="row g-4">
+                <!-- Contact Form -->
+                <div class="col-lg-8">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h3 class="card-title mb-4">
+                                <i class="bi bi-envelope me-2"></i>Send a Message
+                            </h3>
+
+                            <EditForm Model="@contactForm" OnValidSubmit="@HandleSubmit">
+                                <DataAnnotationsValidator />
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label">Name *</label>
+                                        <InputText id="name" class="form-control" @bind-Value="contactForm.Name"
+                                                   placeholder="Your full name" />
+                                        <ValidationMessage For="@(() => contactForm.Name)" />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email *</label>
+                                        <InputText id="email" type="email" class="form-control" @bind-Value="contactForm.Email"
+                                                   placeholder="your.email@example.com" />
+                                        <ValidationMessage For="@(() => contactForm.Email)" />
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label">Subject *</label>
+                                        <InputText id="subject" class="form-control" @bind-Value="contactForm.Subject"
+                                                   placeholder="What's this about?" />
+                                        <ValidationMessage For="@(() => contactForm.Subject)" />
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="message" class="form-label">Message *</label>
+                                        <InputTextArea id="message" class="form-control" rows="6" @bind-Value="contactForm.Message"
+                                                       placeholder="Your message here..." />
+                                        <ValidationMessage For="@(() => contactForm.Message)" />
+                                    </div>
+
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary btn-lg px-4" disabled="@isSubmitting">
+                                            @if (isSubmitting)
+                                            {
+                                                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                                <span>Sending...</span>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-send me-2"></i>
+                                                <span>Send Message</span>
+                                            }
+                                        </button>
+                                    </div>
+                                </div>
+                            </EditForm>
+
+                            @if (!string.IsNullOrEmpty(submitMessage))
+                            {
+                                <div class="alert @(submitSuccess ? "alert-success" : "alert-danger") mt-3" role="alert">
+                                    <i class="bi @(submitSuccess ? "bi-check-circle" : "bi-exclamation-triangle") me-2"></i>
+                                    @submitMessage
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Social Links - Below the form -->
+                    <div class="text-center mt-4">
+                        <h5 class="mb-3">
+                            <i class="bi bi-share me-2"></i>Connect with me
+                        </h5>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="https://linkedin.com/in/austin--massey" target="_blank"
+                               class="btn btn-outline-primary social-btn" title="LinkedIn">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                            <a href="https://github.com/atmassey" target="_blank"
+                               class="btn btn-outline-dark social-btn" title="GitHub">
+                                <i class="bi bi-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .contact-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1b6ec2, #6ea8fe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.1rem;
+    }
+
+    .contact-item:hover .contact-icon {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
+    }
+
+    .card {
+        border: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+        }
+
+    /* Social buttons styling */
+    .social-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+    /* Form controls styling */
+    .form-control {
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #1b6ec2;
+            box-shadow: 0 0 0 0.2rem rgba(27, 110, 194, 0.25);
+        }
+
+    /* Dark mode styles */
+    [data-bs-theme="dark"] .card {
+        background-color: #343a40;
+        border: 1px solid #495057;
+    }
+
+    [data-bs-theme="dark"] .contact-icon {
+        background: linear-gradient(135deg, #6ea8fe, #0d6efd);
+    }
+
+    /* Dark mode form controls */
+    [data-bs-theme="dark"] .form-control {
+        background-color: #2d3439 !important;
+        border-color: #495057 !important;
+        color: #ffffff !important;
+    }
+
+        [data-bs-theme="dark"] .form-control::placeholder {
+            color: #adb5bd !important;
+            opacity: 1;
+        }
+
+        [data-bs-theme="dark"] .form-control:focus {
+            background-color: #2d3439 !important;
+            border-color: #6ea8fe !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 0 0.2rem rgba(110, 168, 254, 0.25) !important;
+        }
+
+        [data-bs-theme="dark"] .form-control:disabled,
+        [data-bs-theme="dark"] .form-control[readonly] {
+            background-color: #1f2329 !important;
+            opacity: 1;
+            color: #6c757d !important;
+        }
+
+    /* Dark mode form labels */
+    [data-bs-theme="dark"] .form-label {
+        color: #f8f9fa !important;
+    }
+
+    /* Dark mode validation messages */
+    [data-bs-theme="dark"] .validation-message {
+        color: #ff6b6b !important;
+    }
+
+    /* Dark mode alerts */
+    [data-bs-theme="dark"] .alert-success {
+        background-color: #155724 !important;
+        border-color: #1e7e34 !important;
+        color: #d4edda !important;
+    }
+
+    [data-bs-theme="dark"] .alert-danger {
+        background-color: #721c24 !important;
+        border-color: #a94442 !important;
+        color: #f5c6cb !important;
+    }
+
+    /* Dark mode button styling */
+    [data-bs-theme="dark"] .btn-outline-primary {
+        border-color: #6ea8fe !important;
+        color: #6ea8fe !important;
+    }
+
+        [data-bs-theme="dark"] .btn-outline-primary:hover {
+            background-color: #6ea8fe !important;
+            color: #000 !important;
+        }
+
+    [data-bs-theme="dark"] .btn-outline-dark {
+        border-color: #adb5bd !important;
+        color: #adb5bd !important;
+    }
+
+        [data-bs-theme="dark"] .btn-outline-dark:hover {
+            background-color: #adb5bd !important;
+            color: #000 !important;
+        }
+
+    [data-bs-theme="dark"] .btn-outline-info {
+        border-color: #17a2b8 !important;
+        color: #17a2b8 !important;
+    }
+
+        [data-bs-theme="dark"] .btn-outline-info:hover {
+            background-color: #17a2b8 !important;
+            color: #fff !important;
+        }
+
+    /* Dark mode social section heading */
+    [data-bs-theme="dark"] h5 {
+        color: #f8f9fa !important;
+    }
+</style>
 
 @code {
+    private ContactFormModel contactForm = new();
+    private bool isSubmitting = false;
+    private string submitMessage = "";
+    private bool submitSuccess = false;
 
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        submitMessage = "";
+
+        try
+        {
+            // Simulate form submission
+            await Task.Delay(2000);
+
+            // Here you would typically send the form data to your backend
+            // For now, we'll just show a success message
+            submitSuccess = true;
+            submitMessage = "Thank you for your message! I'll get back to you soon.";
+
+            // Reset form
+            contactForm = new ContactFormModel();
+        }
+        catch (Exception ex)
+        {
+            submitSuccess = false;
+            submitMessage = "Sorry, there was an error sending your message. Please try again.";
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    public class ContactFormModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(100, ErrorMessage = "Name cannot exceed 100 characters")]
+        public string Name { get; set; } = "";
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+        public string Email { get; set; } = "";
+
+        [Required(ErrorMessage = "Subject is required")]
+        [StringLength(200, ErrorMessage = "Subject cannot exceed 200 characters")]
+        public string Subject { get; set; } = "";
+
+        [Required(ErrorMessage = "Message is required")]
+        [StringLength(1000, ErrorMessage = "Message cannot exceed 1000 characters")]
+        [MinLength(10, ErrorMessage = "Message must be at least 10 characters")]
+        public string Message { get; set; } = "";
+    }
 }

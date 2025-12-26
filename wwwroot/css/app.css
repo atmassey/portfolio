@@ -65,6 +65,7 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
+/* Loading animation styles - with better defaults */
 .loading-progress {
     position: relative;
     display: block;
@@ -73,31 +74,129 @@ a, .btn-link {
     margin: 20vh auto 1rem auto;
 }
 
-    .loading-progress circle {
-        fill: none;
-        stroke: #e0e0e0;
-        stroke-width: 0.6rem;
-        transform-origin: 50% 50%;
-        transform: rotate(-90deg);
-    }
+.loading-progress circle {
+    fill: none;
+    stroke: #e5e5e5;
+    stroke-width: 0.6rem;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+}
 
-        .loading-progress circle:last-child {
-            stroke: #1b6ec2;
-            stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
-            transition: stroke-dasharray 0.05s ease-in-out;
-        }
+.loading-progress circle:last-child {
+    stroke: #1b6ec2;
+    stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+    transition: stroke-dasharray 0.05s ease-in-out;
+}
 
 .loading-progress-text {
     position: absolute;
     text-align: center;
     font-weight: bold;
     inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+    color: #000000; /* Default visible color */
+    font-size: 1rem;
+    z-index: 1;
 }
 
-    .loading-progress-text:after {
-        content: var(--blazor-load-percentage-text, "Loading");
-    }
+.loading-progress-text:after {
+    content: var(--blazor-load-percentage-text, "Loading");
+}
 
 code {
     color: #c02d76;
+}
+
+/* Dark mode styles */
+[data-bs-theme="dark"] {
+    background-color: #212529;
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] a,
+[data-bs-theme="dark"] .btn-link {
+    color: #6ea8fe;
+}
+
+[data-bs-theme="dark"] .top-row {
+    background-color: #343a40 !important;
+    border-bottom: 1px solid #495057 !important;
+}
+
+[data-bs-theme="dark"] .sidebar {
+    background-image: linear-gradient(180deg, #1a1d29 0%, #2d1b3d 70%) !important;
+}
+
+[data-bs-theme="dark"] #blazor-error-ui {
+    background: #dc3545 !important;
+    color: white;
+}
+
+/* Dark mode loading animation */
+[data-bs-theme="dark"] .loading-progress circle {
+    stroke: #495057;
+}
+
+[data-bs-theme="dark"] .loading-progress circle:last-child {
+    stroke: #6ea8fe;
+}
+
+[data-bs-theme="dark"] .loading-progress-text {
+    color: #ffffff !important; /* White text for dark mode */
+}
+
+[data-bs-theme="dark"] main {
+    background-color: #212529 !important;
+}
+
+[data-bs-theme="dark"] article.content {
+    background-color: #212529 !important;
+}
+
+[data-bs-theme="dark"] .page {
+    background-color: #212529 !important;
+}
+
+[data-bs-theme="dark"] main,
+[data-bs-theme="dark"] article.content,
+[data-bs-theme="dark"] .page {
+    color: #f8f9fa !important;
+}
+
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] h4,
+[data-bs-theme="dark"] h5,
+[data-bs-theme="dark"] h6 {
+    color: #f8f9fa !important;
+}
+
+[data-bs-theme="dark"] p {
+    color: #dee2e6 !important;
+}
+
+[data-bs-theme="dark"] code {
+    color: #ff7eb6 !important;
+    background-color: #495057;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+}
+
+[data-bs-theme="dark"] .validation-message {
+    color: #ff6b6b !important;
+}
+
+/* Light mode explicit styles */
+[data-bs-theme="light"] .loading-progress-text {
+    color: #000000 !important;
+}
+
+/* Handle cases where theme is not yet set */
+html:not([data-bs-theme]) .loading-progress-text {
+    color: #000000 !important;
+}
+
+html:not([data-bs-theme]) body {
+    background-color: #ffffff;
+    color: #000000;
 }
