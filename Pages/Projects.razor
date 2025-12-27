@@ -155,7 +155,27 @@
     {
         projects = new List<ProjectModel>
         {
-          
+            new ProjectModel
+            {
+                Title = "Personal Portfolio",
+                Description = "A modern, responsive portfolio website built with Blazor WebAssembly featuring dark mode, contact forms, and dynamic content.",
+                Icon = "bi bi-person-badge",
+                Category = "Web",
+                Technologies = new[] { "Blazor", "C#", ".NET 8", "Bootstrap", "CSS3" },
+                GitHubUrl = "https://github.com/atmassey/portfolio",
+                LiveUrl = "https://atmassey.dev",
+                Status = "Active"
+            },
+            new ProjectModel
+            {
+                Title = "Ignition-Updater Action",
+                Description = "Custom GitHub Action that automatically performs file system and config scans on Ignition Gateway.",
+                Icon = "bi bi-play-circle",
+                Category = "DevOps",
+                Technologies = new[] { "TypeScript", "GitHub Actions", "Ignition"},
+                GitHubUrl = "https://github.com/atmassey/ignition-updater",
+                Status = "Active"
+            }
         };
     }
 

@@ -1,5 +1,487 @@
 ﻿@page "/about"
-<h3>About Me</h3>
+
+<PageTitle>About Me</PageTitle>
+
+<div class="container-fluid py-3 py-md-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8 col-xxl-7">
+
+            <!-- Hero Section with Profile Image -->
+            <div class="text-center mb-4 mb-md-5">
+                <div class="profile-image-container mb-4">
+                    <img src="images/me.png" alt="Austin Massey" class="profile-image"
+                         onerror="this.src='https://via.placeholder.com/300x300/1b6ec2/ffffff?text=AM';" />
+                    <div class="profile-image-border"></div>
+                </div>
+
+                <h1 class="display-5 display-md-4 fw-bold mb-2 mb-md-3">About Me</h1>
+                <p class="lead text-muted px-2">
+                    Passionate developer, automation enthusiast, and problem solver
+                </p>
+            </div>
+
+            <!-- Main Story Section - Centered and Full Width -->
+            <div class="row justify-content-center mb-4 mb-md-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm story-card">
+                        <div class="card-body p-4 p-md-5">
+                            <h3 class="card-title mb-4 text-center text-md-start">
+                                <i class="bi bi-person-lines-fill me-2 text-primary"></i>
+                                My Story
+                            </h3>
+
+                            <div class="story-content">
+                                <p class="mb-4">
+                                    Hello! I'm Austin Massey, a passionate software developer and automation enthusiast
+                                    with a drive for creating efficient, scalable solutions. My journey in technology
+                                    began with curiosity and has evolved into a career focused on building systems
+                                    that make a real difference.
+                                </p>
+
+                                <p class="mb-4">
+                                    With expertise spanning from <strong>C# and .NET development</strong> to
+                                    <strong>DevOps practices</strong> and <strong>automation tools</strong>, I enjoy
+                                    tackling complex challenges and turning ideas into reality. Whether it's developing
+                                    a new web application, optimizing CI/CD pipelines, or creating automation scripts,
+                                    I'm always eager to learn and apply new technologies.
+                                </p>
+
+                                <p class="mb-0">
+                                    When I'm not coding, you'll find me exploring new technologies, contributing to
+                                    open-source projects, or sharing knowledge with the developer community. I believe
+                                    in the power of collaboration and continuous learning to drive innovation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Facts & Expertise Grid -->
+            <div class="row g-4 mb-4 mb-md-5">
+                <!-- Quick Facts -->
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-4 text-center text-lg-start">
+                                <i class="bi bi-lightning-charge me-2 text-primary"></i>
+                                Quick Facts
+                            </h5>
+
+                            <div class="fact-list">
+                                <div class="fact-item mb-3">
+                                    <div class="fact-icon">
+                                        <i class="bi bi-geo-alt-fill"></i>
+                                    </div>
+                                    <div class="fact-content">
+                                        <small class="text-muted">Location</small>
+                                        <div class="fw-semibold">United States</div>
+                                    </div>
+                                </div>
+
+                                <div class="fact-item mb-3">
+                                    <div class="fact-icon">
+                                        <i class="bi bi-briefcase-fill"></i>
+                                    </div>
+                                    <div class="fact-content">
+                                        <small class="text-muted">Focus</small>
+                                        <div class="fw-semibold">Full-Stack Development</div>
+                                    </div>
+                                </div>
+
+                                <div class="fact-item mb-3">
+                                    <div class="fact-icon">
+                                        <i class="bi bi-heart-fill"></i>
+                                    </div>
+                                    <div class="fact-content">
+                                        <small class="text-muted">Passion</small>
+                                        <div class="fw-semibold">Automation & DevOps</div>
+                                    </div>
+                                </div>
+
+                                <div class="fact-item">
+                                    <div class="fact-icon">
+                                        <i class="bi bi-code-slash"></i>
+                                    </div>
+                                    <div class="fact-content">
+                                        <small class="text-muted">Favorite Tech</small>
+                                        <div class="fw-semibold">C#, Blazor, Docker</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What I Do Best -->
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-4 text-center text-lg-start">
+                                <i class="bi bi-stars me-2 text-primary"></i>
+                                What I Do Best
+                            </h5>
+
+                            <div class="expertise-grid">
+                                <div class="expertise-item mb-3">
+                                    <div class="expertise-icon-sm me-3">
+                                        <i class="bi bi-code-square"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Development</h6>
+                                        <small class="text-muted">Full-stack web applications</small>
+                                    </div>
+                                </div>
+
+                                <div class="expertise-item mb-3">
+                                    <div class="expertise-icon-sm me-3">
+                                        <i class="bi bi-gear-wide-connected"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Automation</h6>
+                                        <small class="text-muted">Streamlined workflows</small>
+                                    </div>
+                                </div>
+
+                                <div class="expertise-item mb-3">
+                                    <div class="expertise-icon-sm me-3">
+                                        <i class="bi bi-diagram-3"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">DevOps</h6>
+                                        <small class="text-muted">CI/CD & Infrastructure</small>
+                                    </div>
+                                </div>
+
+                                <div class="expertise-item">
+                                    <div class="expertise-icon-sm me-3">
+                                        <i class="bi bi-lightbulb"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Innovation</h6>
+                                        <small class="text-muted">Creative problem solving</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connect Section -->
+            <div class="text-center">
+                <h4 class="mb-3 mb-md-4">Let's Connect</h4>
+                <p class="text-muted mb-4 px-2">
+                    I'm always open to discussing new opportunities, collaborating on projects,
+                    or just chatting about technology and development.
+                </p>
+                <div class="d-flex justify-content-center gap-2 gap-sm-3 flex-wrap">
+                    <a href="/contact" class="btn btn-primary btn-lg px-4 primary-cta-btn">
+                        <i class="bi bi-envelope me-2"></i>Get In Touch
+                    </a>
+                    <a href="https://linkedin.com/in/austin--massey" target="_blank" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="bi bi-linkedin me-2"></i>LinkedIn
+                    </a>
+                    <a href="https://github.com/atmassey" target="_blank" class="btn btn-outline-dark btn-lg px-4">
+                        <i class="bi bi-github me-2"></i>GitHub
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Profile Image Styling */
+    .profile-image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #ffffff;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+    }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+    .profile-image-border {
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1b6ec2, #6ea8fe);
+        z-index: 1;
+        animation: pulse-border 3s ease-in-out infinite alternate;
+    }
+
+    @@keyframes pulse-border {
+        0% {
+            opacity: 0.7;
+            transform: scale(1);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+    }
+
+    /* Enhanced Card Styling */
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        transition: all 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1) !important;
+        }
+
+    /* Story Card - Optimized for better reading */
+    .story-card {
+        max-width: none;
+    }
+
+    .story-content p {
+        line-height: 1.7;
+        font-size: 1.05rem;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+
+    /* Enhanced Primary CTA Button */
+    .primary-cta-btn {
+        position: relative;
+        overflow: hidden;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(27, 110, 194, 0.3);
+        transition: all 0.3s ease;
+    }
+
+        .primary-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(27, 110, 194, 0.4);
+        }
+
+        .primary-cta-btn:focus {
+            box-shadow: 0 0 0 0.2rem rgba(27, 110, 194, 0.5);
+        }
+
+    /* Fact List Styling - Improved */
+    .fact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+        .fact-item:hover {
+            background-color: rgba(27, 110, 194, 0.05);
+            transform: translateX(4px);
+        }
+
+    .fact-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1b6ec2, #6ea8fe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .fact-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* Compact Expertise Styling */
+    .expertise-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+        .expertise-item:hover {
+            background-color: rgba(27, 110, 194, 0.05);
+            transform: translateX(4px);
+        }
+
+    .expertise-icon-sm {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1b6ec2, #6ea8fe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .profile-image {
+            width: 150px;
+            height: 150px;
+        }
+
+        .story-content p {
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .card-body {
+            padding: 1.5rem !important;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .profile-image {
+            width: 130px;
+            height: 130px;
+        }
+
+        .story-content p {
+            font-size: 0.95rem;
+        }
+
+        .fact-icon,
+        .expertise-icon-sm {
+            width: 35px;
+            height: 35px;
+            font-size: 1rem;
+        }
+
+        .btn-lg {
+            padding: 0.65rem 1.25rem;
+            font-size: 0.95rem;
+        }
+    }
+
+    @@media (min-width: 992px) {
+        .story-content {
+            padding: 0 1rem;
+        }
+    }
+
+    /* Dark mode styles */
+    [data-bs-theme="dark"] .card {
+        background: rgba(52, 58, 64, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid #495057;
+    }
+
+    [data-bs-theme="dark"] .profile-image {
+        border-color: #495057;
+    }
+
+    [data-bs-theme="dark"] .profile-image-border {
+        background: linear-gradient(135deg, #6ea8fe, #4dabf7);
+    }
+
+    [data-bs-theme="dark"] .fact-item:hover,
+    [data-bs-theme="dark"] .expertise-item:hover {
+        background-color: rgba(110, 168, 254, 0.1);
+    }
+
+    [data-bs-theme="dark"] .fact-icon,
+    [data-bs-theme="dark"] .expertise-icon-sm {
+        background: linear-gradient(135deg, #6ea8fe, #4dabf7);
+    }
+
+    /* ENHANCED: Dark mode primary button styling */
+    [data-bs-theme="dark"] .primary-cta-btn {
+        background-color: #6ea8fe !important;
+        border-color: #6ea8fe !important;
+        color: #000000 !important;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(110, 168, 254, 0.4) !important;
+    }
+
+        [data-bs-theme="dark"] .primary-cta-btn:hover {
+            background-color: #4dabf7 !important;
+            border-color: #4dabf7 !important;
+            color: #000000 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(110, 168, 254, 0.6) !important;
+        }
+
+        [data-bs-theme="dark"] .primary-cta-btn:focus {
+            background-color: #6ea8fe !important;
+            border-color: #6ea8fe !important;
+            color: #000000 !important;
+            box-shadow: 0 0 0 0.2rem rgba(110, 168, 254, 0.5) !important;
+        }
+
+        [data-bs-theme="dark"] .primary-cta-btn:active {
+            background-color: #4dabf7 !important;
+            border-color: #4dabf7 !important;
+            color: #000000 !important;
+        }
+
+    [data-bs-theme="dark"] h1,
+    [data-bs-theme="dark"] h3,
+    [data-bs-theme="dark"] h4,
+    [data-bs-theme="dark"] h5,
+    [data-bs-theme="dark"] h6 {
+        color: #f8f9fa !important;
+    }
+
+    [data-bs-theme="dark"] .text-muted {
+        color: #adb5bd !important;
+    }
+
+    [data-bs-theme="dark"] .btn-outline-primary {
+        border-color: #6ea8fe !important;
+        color: #6ea8fe !important;
+    }
+
+        [data-bs-theme="dark"] .btn-outline-primary:hover {
+            background-color: #6ea8fe !important;
+            color: #000 !important;
+        }
+
+    [data-bs-theme="dark"] .btn-outline-dark {
+        border-color: #adb5bd !important;
+        color: #adb5bd !important;
+    }
+
+        [data-bs-theme="dark"] .btn-outline-dark:hover {
+            background-color: #adb5bd !important;
+            color: #000 !important;
+        }
+</style>
 
 @code {
 
