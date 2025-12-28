@@ -22,8 +22,8 @@
                             @onclick="@(() => FilterProjects("All"))">
                         All
                     </button>
-                    <button type="button" class="btn @(selectedCategory == "Automation" ? "btn-primary" : "btn-outline-primary")"
-                            @onclick="@(() => FilterProjects("Automation"))">
+                    <button type="button" class="btn @(selectedCategory == "Industrial Automation" ? "btn-primary" : "btn-outline-primary")"
+                            @onclick="@(() => FilterProjects("Industrial Automation"))">
                         Automation
                     </button>
                     <button type="button" class="btn @(selectedCategory == "Web" ? "btn-primary" : "btn-outline-primary")"
@@ -175,7 +175,37 @@
                 Technologies = new[] { "TypeScript", "GitHub Actions", "Ignition"},
                 GitHubUrl = "https://github.com/atmassey/ignition-updater",
                 Status = "Active"
-            }
+            },
+            new ProjectModel
+            {
+                Title = "LogixAOIs",
+                Description = "Custom AOIs I have built over the years for Control Logix.",
+                Icon = "bi bi-collection",
+                Category = "Industrial Automation",
+                Technologies = new[] { "Studio5000"},
+                GitHubUrl = "https://github.com/atmassey/LogixAOIs",
+                Status = "Active"
+            },
+            new ProjectModel
+            {
+                Title = "abb-lib-rws",
+                Description = "API wrapper for interfacing with ABB robots.",
+                Icon = "bi bi-collection",
+                Category = "Industrial Automation",
+                Technologies = new[] { "Go", "Github Actions", "ABB Robot Studio"},
+                GitHubUrl = "https://github.com/atmassey/abb-lib-rws",
+                Status = "Active"
+            },
+            new ProjectModel
+            {
+                Title = "AppointmentScheduler",
+                Description = "C# Windows Forms Application for cross-timezone appointment scheduling.",
+                Icon = "bi bi-collection",
+                Category = "All",
+                Technologies = new[] {"C#"},
+                GitHubUrl = "https://github.com/atmassey/AppointmentScheduler",
+                Status = "Active"
+            },
         };
     }
 
