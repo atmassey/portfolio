@@ -7,7 +7,7 @@
     <div class="skill-info">
         <h6 class="skill-name">@Skill.Name</h6>
         <div class="skill-level">
-            @for (int i = 1; i <= 4; i++)
+            @for (int i = 1; i <= ((int)@Skill.Level); i++)
             {
                 <div class="level-dot @(i <= (int)Skill.Level ? "active" : "")" style="--skill-color: @Skill.Color;"></div>
             }
