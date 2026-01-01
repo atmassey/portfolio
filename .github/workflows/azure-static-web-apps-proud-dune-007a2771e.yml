@@ -26,7 +26,7 @@ jobs:
           sed -i 's/#{EMAILJS_SERVICE_ID}#/${{ secrets.EMAILJS_SERVICE_ID }}/g' wwwroot/appsettings.Production.json
           sed -i 's/#{EMAILJS_TEMPLATE_ID}#/${{ secrets.EMAILJS_TEMPLATE_ID }}/g' wwwroot/appsettings.Production.json
           sed -i 's/#{EMAILJS_PUBLIC_KEY}#/${{ secrets.EMAILJS_PUBLIC_KEY }}/g' wwwroot/appsettings.Production.json
-          sed -i 's/#{EMAILJS_RECIPIENT_EMAIL}#/${{ secrets.EMAILJS_RECIPIENT_EMAIL }}/g' wwwroot/appsettings.Production.json
+          sed -i 's/#{EMAILJS_RECIPIENT_EMAIL}#/${{ secrets.RECIPIENT_EMAIL }}/g' wwwroot/appsettings.Production.json
       
       - name: Build And Deploy
         id: builddeploy
@@ -50,3 +50,4 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_DUNE_007A2771E }}
           action: "close"
+
