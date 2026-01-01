@@ -1,5 +1,6 @@
 ﻿@page "/contact"
 @inject IJSRuntime JSRuntime
+@inject portfolio.Services.IEmailService EmailService
 @using System.ComponentModel.DataAnnotations
 
 <PageTitle>Contact</PageTitle>
@@ -170,27 +171,33 @@
 
     /* Responsive text sizes */
     @@media (max-width: 576px) {
-        .form-control-lg {
-            padding: 0.65rem 0.85rem;
-            font-size: 0.95rem;
-        }
+        .form-control-lg
 
-        .btn-lg {
-            padding: 0.65rem 1.5rem;
-            font-size: 1rem;
-        }
+    {
+        padding: 0.65rem 0.85rem;
+        font-size: 0.95rem;
+    }
 
-        .social-btn {
-            min-height: 40px;
-            font-size: 1rem;
-            min-width: 40px;
-        }
+    .btn-lg {
+        padding: 0.65rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .social-btn {
+        min-height: 40px;
+        font-size: 1rem;
+        min-width: 40px;
+    }
+
     }
 
     @@media (min-width: 992px) {
-        textarea.form-control {
-            min-height: 140px !important;
-        }
+        textarea .form-control
+
+    {
+        min-height: 140px !important;
+    }
+
     }
 
     /* Dark mode styles */
@@ -289,18 +296,25 @@
 
         try
         {
-            // Simulate form submission
-            await Task.Delay(2000);
+            var success = await EmailService.SendEmailAsync(
+                contactForm.Name,
+                contactForm.Email,
+                contactForm.Subject,
+                contactForm.Message);
 
-            // Here you would typically send the form data to your backend
-            // For now, we'll just show a success message
-            submitSuccess = true;
-            submitMessage = "Thank you for your message! I'll get back to you soon.";
-
-            // Reset form
-            contactForm = new ContactFormModel();
+            if (success)
+            {
+                submitSuccess = true;
+                submitMessage = "Thank you for your message! I'll get back to you soon.";
+                contactForm = new ContactFormModel();
+            }
+            else
+            {
+                submitSuccess = false;
+                submitMessage = "Sorry, there was an error sending your message. Please try again.";
+            }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             submitSuccess = false;
             submitMessage = "Sorry, there was an error sending your message. Please try again.";
