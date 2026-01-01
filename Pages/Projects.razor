@@ -19,20 +19,24 @@
             <div class="text-center mb-4">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn @(selectedCategory == "All" ? "btn-primary" : "btn-outline-primary")"
-                            @onclick="@(() => FilterProjects("All"))">
+                    @onclick="@(() => FilterProjects("All"))">
                         All
                     </button>
                     <button type="button" class="btn @(selectedCategory == "Industrial Automation" ? "btn-primary" : "btn-outline-primary")"
-                            @onclick="@(() => FilterProjects("Industrial Automation"))">
+                    @onclick="@(() => FilterProjects("Industrial Automation"))">
                         Industrial Automation
                     </button>
                     <button type="button" class="btn @(selectedCategory == "Web" ? "btn-primary" : "btn-outline-primary")"
-                            @onclick="@(() => FilterProjects("Web"))">
+                    @onclick="@(() => FilterProjects("Web"))">
                         Web Development
                     </button>
                     <button type="button" class="btn @(selectedCategory == "DevOps" ? "btn-primary" : "btn-outline-primary")"
-                            @onclick="@(() => FilterProjects("DevOps"))">
+                    @onclick="@(() => FilterProjects("DevOps"))">
                         DevOps
+                    </button>
+                    <button type="button" class="btn @(selectedCategory == "Hobby" ? "btn-primary" : "btn-outline-primary")"
+                    @onclick="@(() => FilterProjects("Hobby"))">
+                        Hobby
                     </button>
                 </div>
             </div>
@@ -61,82 +65,82 @@
 
 <style>
     .project-card {
-        height: 100%;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: none;
-        overflow: hidden;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    overflow: hidden;
     }
 
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.15) !important;
-        }
+    .project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15) !important;
+    }
 
     .project-image {
-        height: 200px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 3rem;
-        position: relative;
-        overflow: hidden;
+    height: 200px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
     }
 
     .project-tech-stack {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
     }
 
     .tech-badge {
-        background-color: #f8f9fa;
-        color: #495057;
-        font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
-        border-radius: 12px;
-        border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    color: #495057;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
     }
 
     .project-links {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
     }
 
     .project-link {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        text-decoration: none;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-        .project-link:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+    .project-link:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
 
     /* Dark mode styles */
     [data-bs-theme="dark"] .project-card {
-        background-color: #343a40;
-        border: 1px solid #495057;
+    background-color: #343a40;
+    border: 1px solid #495057;
     }
 
     [data-bs-theme="dark"] .tech-badge {
-        background-color: #495057;
-        color: #f8f9fa;
-        border-color: #6c757d;
+    background-color: #495057;
+    color: #f8f9fa;
+    border-color: #6c757d;
     }
 
     [data-bs-theme="dark"] .project-image {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     }
 </style>
 
@@ -188,9 +192,19 @@
             },
             new ProjectModel
             {
+              Title = "SiemensFCs",
+			  Description = "A collection of FCs for Siemens PLCs.",
+			  Icon = "bi bi-collection",
+              Category = "Industrial Automation",
+			  Technologies = new[] { "TIA Portal"},
+              GitHubUrl = "https://github.com/atmassey/SiemensFCs",
+			  Status = "Active"
+            },
+            new ProjectModel
+            {
                 Title = "abb-lib-rws",
                 Description = "API wrapper for interfacing with ABB robots.",
-                Icon = "bi bi-collection",
+                Icon = "bi bi-robot",
                 Category = "Industrial Automation",
                 Technologies = new[] { "Go", "Github Actions", "ABB Robot Studio"},
                 GitHubUrl = "https://github.com/atmassey/abb-lib-rws",
@@ -198,9 +212,39 @@
             },
             new ProjectModel
             {
+              Title = "go-ignition",
+			  Description = "API wrapper for Inductive Automation's Ignition platform.",
+			  Icon = "bi bi-lightning-charge",
+			  Category = "Industrial Automation",
+			  Technologies = new[] { "Go", "Ignition" },
+              GitHubUrl = "https://github.com/atmassey/go-ignition",
+			  Status = "Active"
+            },
+            new ProjectModel
+            {
+			  Title = "Generic Control",
+			  Description = "A library for Arduino to perform PID control and other control strategies",
+			  Icon = "bi bi-gear",
+              Category = "Hobby",
+              GitHubUrl = "https://github.com/atmassey/GenericControl",
+			  Technologies = new[] { "C++", "Arduino" },
+			  Status= "Active"
+            },
+            new ProjectModel
+            {
+              Title = "shelly",
+			  Description = "A Go library for interfacing with Shelly smart home devices.",
+			  Icon = "bi bi-house",
+			  Category = "Hobby",
+			  Technologies = new[] { "Go", "Rest API"},
+              GitHubUrl = "https://github.com/atmassey/shelly",
+			  Status = "Active"
+            },
+            new ProjectModel
+            {
                 Title = "AppointmentScheduler",
                 Description = "C# Windows Forms Application for cross-timezone appointment scheduling.",
-                Icon = "bi bi-collection",
+                Icon = "bi bi-calendar-check",
                 Category = "All",
                 Technologies = new[] {"C#"},
                 GitHubUrl = "https://github.com/atmassey/AppointmentScheduler",
