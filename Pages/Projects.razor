@@ -17,25 +17,25 @@
 
             <!-- Filter/Category Section (Optional) -->
             <div class="text-center mb-4">
-                <div class="btn-group" role="group">
+                <div class="btn-group flex-wrap justify-content-center">
                     <button type="button" class="btn @(selectedCategory == "All" ? "btn-primary" : "btn-outline-primary")"
-                    @onclick="@(() => FilterProjects("All"))">
+                            @onclick="@(() => FilterProjects("All"))">
                         All
                     </button>
                     <button type="button" class="btn @(selectedCategory == "Industrial Automation" ? "btn-primary" : "btn-outline-primary")"
-                    @onclick="@(() => FilterProjects("Industrial Automation"))">
+                            @onclick="@(() => FilterProjects("Industrial Automation"))">
                         Industrial Automation
                     </button>
                     <button type="button" class="btn @(selectedCategory == "Web" ? "btn-primary" : "btn-outline-primary")"
-                    @onclick="@(() => FilterProjects("Web"))">
+                            @onclick="@(() => FilterProjects("Web"))">
                         Web Development
                     </button>
                     <button type="button" class="btn @(selectedCategory == "DevOps" ? "btn-primary" : "btn-outline-primary")"
-                    @onclick="@(() => FilterProjects("DevOps"))">
+                            @onclick="@(() => FilterProjects("DevOps"))">
                         DevOps
                     </button>
                     <button type="button" class="btn @(selectedCategory == "Hobby" ? "btn-primary" : "btn-outline-primary")"
-                    @onclick="@(() => FilterProjects("Hobby"))">
+                            @onclick="@(() => FilterProjects("Hobby"))">
                         Hobby
                     </button>
                 </div>
