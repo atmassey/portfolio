@@ -195,7 +195,7 @@
     }
 
     /* Responsive text sizes */
-    @media (max-width: 576px) {
+    @@media (max-width: 576px) {
         .form-control-lg
 
     {
@@ -220,7 +220,7 @@
 
     }
 
-    @media (min-width: 992px) {
+    @@media (min-width: 992px) {
         textarea .form-control
 
     {
@@ -323,13 +323,19 @@
     private string? currentTheme;
     private object? turnstileWidgetId;
 
-    protected override async Task OnInitializedAsync()
-    {
-        turnstileSiteKey = Configuration["Turnstile:SiteKey"];
-        if (string.IsNullOrEmpty(turnstileSiteKey))
-        {
-            turnstileError = "Turnstile site key not configured";
-        }
+    @code {  
+        protected override Task OnInitializedAsync()  
+        {  
+            turnstileSiteKey = Configuration["Turnstile:SiteKey"];  
+            if (string.IsNullOrEmpty(turnstileSiteKey))  
+            {  
+                turnstileError = "Turnstile site key not configured";  
+            }  
+
+            // Since there is no asynchronous operation here,  
+            // we can safely return Task.CompletedTask to avoid the CS1998 warning.  
+            return Task.CompletedTask;  
+        }  
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -356,7 +362,7 @@
             turnstileWidgetId = await JSRuntime.InvokeAsync<object>("turnstileHelpers.render",
                 turnstileSiteKey, theme, "OnTurnstileCallback");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             turnstileError = "Failed to initialize security check";
             StateHasChanged();
@@ -364,11 +370,12 @@
     }
 
     [JSInvokable("OnTurnstileCallback")]
-    public async Task OnTurnstileCallback(string? token)
+    public Task OnTurnstileCallback(string? token)
     {
         turnstileToken = token ?? "";
         turnstileError = string.IsNullOrEmpty(token) ? "Security check failed. Please try again." : "";
         StateHasChanged();
+        return Task.CompletedTask;
     }
 
     private async Task HandleSubmit()
