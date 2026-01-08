@@ -78,6 +78,13 @@
                                         @turnstileError
                                     </div>
                                 }
+                                @if (!string.IsNullOrEmpty(turnstileToken))
+                                {
+                                    <div class="text-success small mt-2">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        Security check completed
+                                    </div>
+                                }
                             </div>
 
                             <!-- Submit Button -->
@@ -323,19 +330,15 @@
     private string? currentTheme;
     private object? turnstileWidgetId;
 
-    @code {  
-        protected override Task OnInitializedAsync()  
-        {  
-            turnstileSiteKey = Configuration["Turnstile:SiteKey"];  
-            if (string.IsNullOrEmpty(turnstileSiteKey))  
-            {  
-                turnstileError = "Turnstile site key not configured";  
-            }  
+    protected override Task OnInitializedAsync()
+    {
+        turnstileSiteKey = Configuration["Turnstile:SiteKey"];
+        if (string.IsNullOrEmpty(turnstileSiteKey))
+        {
+            turnstileError = "Turnstile site key not configured";
+        }
 
-            // Since there is no asynchronous operation here,  
-            // we can safely return Task.CompletedTask to avoid the CS1998 warning.  
-            return Task.CompletedTask;  
-        }  
+        return Task.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -354,10 +357,6 @@
             currentTheme = await JSRuntime.InvokeAsync<string>("eval", "getPreferredTheme()");
             var theme = currentTheme == "dark" ? "dark" : "light";
 
-            // Create a callback method reference
-            var objRef = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync("eval", $"window.contactPageRef = {System.Text.Json.JsonSerializer.Serialize(objRef)}");
-
             // Render Turnstile widget
             turnstileWidgetId = await JSRuntime.InvokeAsync<object>("turnstileHelpers.render",
                 turnstileSiteKey, theme, "OnTurnstileCallback");
@@ -365,17 +364,18 @@
         catch (Exception)
         {
             turnstileError = "Failed to initialize security check";
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
     }
 
     [JSInvokable("OnTurnstileCallback")]
-    public Task OnTurnstileCallback(string? token)
+    public async Task OnTurnstileCallback(string? token)
     {
         turnstileToken = token ?? "";
         turnstileError = string.IsNullOrEmpty(token) ? "Security check failed. Please try again." : "";
-        StateHasChanged();
-        return Task.CompletedTask;
+
+        // Force UI update
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task HandleSubmit()

@@ -31,21 +31,18 @@
             }
         };
 
-        // Turnstile functions
         window.turnstileHelpers = {
-            render: function (siteKey, theme, callback) {
+            render: function (siteKey, theme, callbackMethodName) {
                 return window.turnstile.render('#cf-turnstile', {
                     sitekey: siteKey,
                     theme: theme,
                     callback: function (token) {
-                        if (callback) {
-                            DotNet.invokeMethodAsync('portfolio', callback, token);
-                        }
+                        // Call the Blazor callback method directly
+                        DotNet.invokeMethodAsync('portfolio', callbackMethodName, token);
                     },
                     'error-callback': function () {
-                        if (callback) {
-                            DotNet.invokeMethodAsync('portfolio', callback, null);
-                        }
+                        // Call the Blazor callback method with null token
+                        DotNet.invokeMethodAsync('portfolio', callbackMethodName, null);
                     }
                 });
             },
