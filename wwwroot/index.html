@@ -31,18 +31,75 @@
             }
         };
 
+        // Turnstile helpers
         window.turnstileHelpers = {
             render: function (siteKey, theme, callbackMethodName) {
+                console.log('Rendering Turnstile with:', { siteKey, theme, callbackMethodName });
+
+                if (!window.turnstile) {
+                    console.error('Turnstile not loaded yet');
+                    return null;
+                }
+
                 return window.turnstile.render('#cf-turnstile', {
                     sitekey: siteKey,
                     theme: theme,
                     callback: function (token) {
-                        // Call the Blazor callback method directly
-                        DotNet.invokeMethodAsync('portfolio', callbackMethodName, token);
+                        console.log('Turnstile success callback:', token);
+                        try {
+                            DotNet.invokeMethodAsync('portfolio', callbackMethodName, token)
+                                .catch(err => console.error('Failed to invoke callback:', err));
+                        } catch (error) {
+                            console.error('Error calling .NET callback:', error);
+                        }
                     },
                     'error-callback': function () {
-                        // Call the Blazor callback method with null token
-                        DotNet.invokeMethodAsync('portfolio', callbackMethodName, null);
+                        console.log('Turnstile error callback');
+                        try {
+                            DotNet.invokeMethodAsync('portfolio', callbackMethodName, null)
+                                .catch(err => console.error('Failed to invoke error callback:', err));
+                        } catch (error) {
+                            console.error('Error calling .NET error callback:', error);
+                        }
+                    }
+                });
+            },
+            renderWithCallback: function (siteKey, theme) {
+                console.log('Rendering Turnstile with direct callback:', { siteKey, theme });
+
+                if (!window.turnstile) {
+                    console.error('Turnstile not loaded yet');
+                    return null;
+                }
+
+                return window.turnstile.render('#cf-turnstile', {
+                    sitekey: siteKey,
+                    theme: theme,
+                    callback: function (token) {
+                        console.log('Turnstile success callback:', token);
+                        if (window.contactComponent) {
+                            try {
+                                window.contactComponent.invokeMethodAsync('OnTurnstileCallback', token)
+                                    .catch(err => console.error('Failed to invoke callback:', err));
+                            } catch (error) {
+                                console.error('Error calling .NET callback:', error);
+                            }
+                        } else {
+                            console.error('Contact component reference not found');
+                        }
+                    },
+                    'error-callback': function () {
+                        console.log('Turnstile error callback');
+                        if (window.contactComponent) {
+                            try {
+                                window.contactComponent.invokeMethodAsync('OnTurnstileCallback', null)
+                                    .catch(err => console.error('Failed to invoke error callback:', err));
+                            } catch (error) {
+                                console.error('Error calling .NET error callback:', error);
+                            }
+                        } else {
+                            console.error('Contact component reference not found');
+                        }
                     }
                 });
             },

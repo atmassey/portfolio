@@ -71,6 +71,7 @@
                                 <div class="d-flex justify-content-center justify-content-sm-start">
                                     <div id="cf-turnstile" class="turnstile-container"></div>
                                 </div>
+
                                 @if (!string.IsNullOrEmpty(turnstileError))
                                 {
                                     <div class="text-danger small mt-2">
@@ -329,6 +330,7 @@
     private string? turnstileSiteKey;
     private string? currentTheme;
     private object? turnstileWidgetId;
+    private DotNetObjectReference<Contact>? dotNetRef;
 
     protected override Task OnInitializedAsync()
     {
@@ -338,6 +340,9 @@
             turnstileError = "Turnstile site key not configured";
         }
 
+        // Create a reference to this component for JS callbacks
+        dotNetRef = DotNetObjectReference.Create(this);
+
         return Task.CompletedTask;
     }
 
@@ -345,6 +350,7 @@
     {
         if (firstRender && !string.IsNullOrEmpty(turnstileSiteKey))
         {
+            await Task.Delay(500); // Give time for the DOM to settle
             await InitializeTurnstile();
         }
     }
@@ -357,13 +363,19 @@
             currentTheme = await JSRuntime.InvokeAsync<string>("eval", "getPreferredTheme()");
             var theme = currentTheme == "dark" ? "dark" : "light";
 
-            // Render Turnstile widget
-            turnstileWidgetId = await JSRuntime.InvokeAsync<object>("turnstileHelpers.render",
-                turnstileSiteKey, theme, "OnTurnstileCallback");
+            // Store the component reference globally - FIXED VERSION
+            await JSRuntime.InvokeVoidAsync("eval", "window.contactComponent = null"); // Clear first
+            await JSRuntime.InvokeVoidAsync("setContactComponent", dotNetRef);
+
+            // Render Turnstile widget with improved callback
+            turnstileWidgetId = await JSRuntime.InvokeAsync<object>("turnstileHelpers.renderWithCallback",
+                turnstileSiteKey, theme);
+
+            StateHasChanged();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            turnstileError = "Failed to initialize security check";
+            turnstileError = $"Failed to initialize security check: {ex.Message}";
             await InvokeAsync(StateHasChanged);
         }
     }
@@ -371,6 +383,7 @@
     [JSInvokable("OnTurnstileCallback")]
     public async Task OnTurnstileCallback(string? token)
     {
+        Console.WriteLine($"Turnstile callback received: {token ?? "null"}");
         turnstileToken = token ?? "";
         turnstileError = string.IsNullOrEmpty(token) ? "Security check failed. Please try again." : "";
 
@@ -442,6 +455,8 @@
                 // Ignore cleanup errors
             }
         }
+
+        dotNetRef?.Dispose();
     }
 
     public class ContactFormModel
@@ -464,3 +479,9 @@
         public string Message { get; set; } = "";
     }
 }
+
+<script>
+    window.setContactComponent = function(dotNetRef) {
+        window.contactComponent = dotNetRef;
+    };
+</script>
