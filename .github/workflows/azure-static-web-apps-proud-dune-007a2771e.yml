@@ -21,13 +21,13 @@ jobs:
           lfs: false
       
       # Add step to replace tokens in production config
-      - name: Replace EmailJS Configuration
+      - name: Replace EmailJS and Turnstile Configuration
         run: |
           sed -i 's/#{EMAILJS_SERVICE_ID}#/${{ secrets.EMAILJS_SERVICE_ID }}/g' wwwroot/appsettings.Production.json
           sed -i 's/#{EMAILJS_TEMPLATE_ID}#/${{ secrets.EMAILJS_TEMPLATE_ID }}/g' wwwroot/appsettings.Production.json
           sed -i 's/#{EMAILJS_PUBLIC_KEY}#/${{ secrets.EMAILJS_PUBLIC_KEY }}/g' wwwroot/appsettings.Production.json
           sed -i 's/#{EMAILJS_RECIPIENT_EMAIL}#/${{ secrets.RECIPIENT_EMAIL }}/g' wwwroot/appsettings.Production.json
-      
+          sed -i 's/#{TURNSTILE_SITE_KEY}#/${{ secrets.TURNSTILE_SITE_KEY }}/g' wwwroot/appsettings.Production.json
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1

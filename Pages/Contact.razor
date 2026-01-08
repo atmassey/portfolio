@@ -1,7 +1,9 @@
 ﻿@page "/contact"
 @inject IJSRuntime JSRuntime
 @inject portfolio.Services.IEmailService EmailService
+@inject IConfiguration Configuration
 @using System.ComponentModel.DataAnnotations
+@implements IAsyncDisposable
 
 <PageTitle>Contact</PageTitle>
 
@@ -64,11 +66,25 @@
                                 <ValidationMessage For="@(() => contactForm.Message)" class="d-block mt-1" />
                             </div>
 
+                            <!-- Turnstile Captcha -->
+                            <div class="col-12">
+                                <div class="d-flex justify-content-center justify-content-sm-start">
+                                    <div id="cf-turnstile" class="turnstile-container"></div>
+                                </div>
+                                @if (!string.IsNullOrEmpty(turnstileError))
+                                {
+                                    <div class="text-danger small mt-2">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        @turnstileError
+                                    </div>
+                                }
+                            </div>
+
                             <!-- Submit Button -->
                             <div class="col-12">
                                 <div class="d-grid d-sm-flex justify-content-sm-start">
                                     <button type="submit" class="btn btn-primary btn-lg px-4 py-3 fw-semibold"
-                                            disabled="@isSubmitting">
+                                            disabled="@(isSubmitting || string.IsNullOrEmpty(turnstileToken))">
                                         @if (isSubmitting)
                                         {
                                             <span class="spinner-border spinner-border-sm me-2" role="status"></span>
@@ -169,8 +185,17 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
 
+    /* Turnstile container styling */
+    .turnstile-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 65px;
+        margin: 0.5rem 0;
+    }
+
     /* Responsive text sizes */
-    @@media (max-width: 576px) {
+    @media (max-width: 576px) {
         .form-control-lg
 
     {
@@ -189,9 +214,13 @@
         min-width: 40px;
     }
 
+    .turnstile-container {
+        justify-content: center;
     }
 
-    @@media (min-width: 992px) {
+    }
+
+    @media (min-width: 992px) {
         textarea .form-control
 
     {
@@ -288,14 +317,75 @@
     private bool isSubmitting = false;
     private string submitMessage = "";
     private bool submitSuccess = false;
+    private string turnstileToken = "";
+    private string turnstileError = "";
+    private string? turnstileSiteKey;
+    private string? currentTheme;
+    private object? turnstileWidgetId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        turnstileSiteKey = Configuration["Turnstile:SiteKey"];
+        if (string.IsNullOrEmpty(turnstileSiteKey))
+        {
+            turnstileError = "Turnstile site key not configured";
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !string.IsNullOrEmpty(turnstileSiteKey))
+        {
+            await InitializeTurnstile();
+        }
+    }
+
+    private async Task InitializeTurnstile()
+    {
+        try
+        {
+            // Get current theme
+            currentTheme = await JSRuntime.InvokeAsync<string>("eval", "getPreferredTheme()");
+            var theme = currentTheme == "dark" ? "dark" : "light";
+
+            // Create a callback method reference
+            var objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("eval", $"window.contactPageRef = {System.Text.Json.JsonSerializer.Serialize(objRef)}");
+
+            // Render Turnstile widget
+            turnstileWidgetId = await JSRuntime.InvokeAsync<object>("turnstileHelpers.render",
+                turnstileSiteKey, theme, "OnTurnstileCallback");
+        }
+        catch (Exception ex)
+        {
+            turnstileError = "Failed to initialize security check";
+            StateHasChanged();
+        }
+    }
+
+    [JSInvokable("OnTurnstileCallback")]
+    public async Task OnTurnstileCallback(string? token)
+    {
+        turnstileToken = token ?? "";
+        turnstileError = string.IsNullOrEmpty(token) ? "Security check failed. Please try again." : "";
+        StateHasChanged();
+    }
 
     private async Task HandleSubmit()
     {
+        if (string.IsNullOrEmpty(turnstileToken))
+        {
+            turnstileError = "Please complete the security check";
+            return;
+        }
+
         isSubmitting = true;
         submitMessage = "";
+        turnstileError = "";
 
         try
         {
+            // Here you can verify the turnstile token on your server if needed
             var success = await EmailService.SendEmailAsync(
                 contactForm.Name,
                 contactForm.Email,
@@ -307,6 +397,13 @@
                 submitSuccess = true;
                 submitMessage = "Thank you for your message! I'll get back to you soon.";
                 contactForm = new ContactFormModel();
+
+                // Reset Turnstile
+                if (turnstileWidgetId != null)
+                {
+                    await JSRuntime.InvokeVoidAsync("turnstileHelpers.reset", turnstileWidgetId);
+                    turnstileToken = "";
+                }
             }
             else
             {
@@ -322,6 +419,21 @@
         finally
         {
             isSubmitting = false;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (turnstileWidgetId != null)
+        {
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("turnstileHelpers.remove", turnstileWidgetId);
+            }
+            catch
+            {
+                // Ignore cleanup errors
+            }
         }
     }
 

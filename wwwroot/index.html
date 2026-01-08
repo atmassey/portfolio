@@ -16,6 +16,9 @@
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
     <script>
         // EmailJS function
         window.sendEmail = async function (serviceId, templateId, templateParams, publicKey) {
@@ -25,6 +28,36 @@
             } catch (error) {
                 console.error('EmailJS Error:', error);
                 return "ERROR";
+            }
+        };
+
+        // Turnstile functions
+        window.turnstileHelpers = {
+            render: function (siteKey, theme, callback) {
+                return window.turnstile.render('#cf-turnstile', {
+                    sitekey: siteKey,
+                    theme: theme,
+                    callback: function (token) {
+                        if (callback) {
+                            DotNet.invokeMethodAsync('portfolio', callback, token);
+                        }
+                    },
+                    'error-callback': function () {
+                        if (callback) {
+                            DotNet.invokeMethodAsync('portfolio', callback, null);
+                        }
+                    }
+                });
+            },
+            reset: function (widgetId) {
+                if (widgetId && window.turnstile) {
+                    window.turnstile.reset(widgetId);
+                }
+            },
+            remove: function (widgetId) {
+                if (widgetId && window.turnstile) {
+                    window.turnstile.remove(widgetId);
+                }
             }
         };
 
